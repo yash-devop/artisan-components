@@ -9,8 +9,17 @@ export const Router = createBrowserRouter([
     element: <PageLayout />,
     children: [
       {
-        path: "/",
-        element: <TestPage />,
+        path: "docs",
+        children: [
+          {
+            index: true,
+            element: <TestPage />,
+          },
+          {
+            path: "button",
+            element: <h1>IM BUTTON</h1>,
+          },
+        ],
       },
     ],
   },
