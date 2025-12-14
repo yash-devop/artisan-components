@@ -1,4 +1,5 @@
 import { Button } from "@repo/ui/button/Button";
+import { cn } from "@repo/utils";
 import { ArrowRightFromLine } from "lucide-react";
 import React, { createContext, useContext } from "react";
 
@@ -16,6 +17,14 @@ type TSectionChildren = {
   name: string;
   href: string;
 };
+
+type TSidebarCommonProps = { children: React.ReactNode; className?: string };
+type TSidebarItem = Omit<TSidebarCommonProps, "children"> & {
+  href: string;
+  name: string;
+};
+type TSidebarContext = {};
+
 export const SIDEBAR_ROUTES: TRoutes[] = [
   {
     id: 1,
@@ -88,8 +97,6 @@ export const DocsSidebar = () => {
   );
 };
 
-type TSidebarContext = {};
-
 const SidebarContext = createContext<TSidebarContext | null>(null);
 
 export const SidebarProvider = ({
@@ -112,13 +119,20 @@ export const useSidebar = () => {
   return context;
 };
 
-export const SidebarItem = ({ href, name }: { href: string; name: string }) => {
+export const SidebarItem = ({ href, name, className }: TSidebarItem) => {
   const { pathname } = useLocation();
   const isActive = href === pathname;
   return (
-    <Link to={href} relative="path">
+    <Link
+      to={href}
+      relative="path"
+      className="focus-visible:border-0 focus-visible:outline-none"
+    >
       <Button
-        className="w-full justify-start bg-transparent data-[active=true]:bg-neutral-300"
+        className={cn(
+          `w-full justify-start bg-transparent data-[active=true]:bg-neutral-300/50 data-[active=true]:font-semibold data-[active=false]:text-neutral-500`,
+          className
+        )}
         data-active={isActive}
         variant={"secondary"}
         size={"md"}
@@ -129,12 +143,16 @@ export const SidebarItem = ({ href, name }: { href: string; name: string }) => {
   );
 };
 
-export const Sidebar = ({ children }: { children: React.ReactNode }) => {
+export const Sidebar = ({ children, className }: TSidebarCommonProps) => {
   const isMobile = useMediaQuery({ maxWidth: "1080px" });
   if (isMobile) {
     return (
       <>
-        <Button className="p-1.5 fixed top-4 inset-x-4 bg-neutral-800 w-fit h-fit">
+        <Button
+          className={cn(
+            `p-1.5 fixed top-4 inset-x-4 bg-neutral-800 w-fit h-fit`
+          )}
+        >
           <ArrowRightFromLine size={18} className="shrink-0" />
           <span>SHEET MOBILE VIEW COMING SOON </span>
         </Button>
@@ -142,18 +160,32 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
     );
   }
   return (
-    <aside className="flex flex-col border-r border-neutral-300 max-w-[350px] h-full w-full overflow-auto py-6  bg-neutral-100">
+    <aside
+      className={cn(
+        `flex flex-col border-r border-neutral-300 max-w-[350px] h-full w-full overflow-auto py-6  bg-neutral-100`,
+        className
+      )}
+    >
       {children}
     </aside>
   );
 };
 
-export const SidebarContent = ({ children }: { children: React.ReactNode }) => {
+export const SidebarContent = ({
+  children,
+  className,
+}: TSidebarCommonProps) => {
   return (
-    <div className="w-full flex flex-col gap-y-2 p-2 h-full">{children}</div>
+    <div className={cn(`w-full flex flex-col gap-y-2 p-2 h-full`, className)}>
+      {children}
+    </div>
   );
 };
 
-export const SidebarGroup = ({ children }: { children: React.ReactNode }) => {
-  return <section className="flex flex-col pb-4">{children}</section>;
+export const SidebarGroup = ({ children, className }: TSidebarCommonProps) => {
+  return (
+    <section className={cn(`flex flex-col pb-4 gap-y-1.5`, className)}>
+      {children}
+    </section>
+  );
 };
