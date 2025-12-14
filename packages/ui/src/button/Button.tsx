@@ -15,7 +15,8 @@ const buttonVariants = cva(
       variant: {
         primary:
           "bg-primary text-neutral-50 rounded-md hover:bg-brand-primary-600  border-brand-primary-700",
-        secondary: "bg-red-400",
+        secondary:
+          "bg-neutral-200 hover:bg-neutral-300/50 shadow-none [box-shadow:none] rounded-md text-neutral-700 font-medium",
         link: "hover:underline bg-none hover:bg-neutral-25 border-none text-neutral-600 shadow-none [box-shadow:none] !p-0 rounded-md",
       },
       size: {
@@ -30,7 +31,7 @@ const buttonVariants = cva(
     },
   }
 );
-console.log("buttonVariants", buttonVariants());
+
 export const Button = ({
   children,
   className,
