@@ -1,0 +1,77 @@
+<h1 className="text-3xl font-semibold">Package Installer</h1>
+
+<h1 className="py-4 text-neutral-500">
+  The Package Installer component lets you display install commands for
+  different package managers like npm, yarn, pnpm, and bun—with a simple,
+  tab-based UI.
+</h1>
+
+import { SquareTerminal, Activity } from "lucide-react";
+import {
+  PackageInstaller,
+  PackageHeader,
+  PackageTabs,
+  PackageTab,
+  PackageContent,
+  PackageIcon,
+} from "@repo/ui/package-installer";
+
+<div className='space-y-6'>
+  <PackageInstaller defaultOpen="npmsds">
+  <PackageHeader>
+    <PackageIcon>
+      <Activity
+        size={20}
+        className="stroke-1 text-neutral-600 rounded-none shrink-0 mt-0.5 "
+      />
+    </PackageIcon>
+    <PackageTabs>
+      <PackageTab value="eldora">eldora</PackageTab>
+      <PackageTab value="npm">npm</PackageTab>
+      <PackageTab value="pnpm">pnpm</PackageTab>
+      <PackageTab value="bun">bun</PackageTab>
+    </PackageTabs>
+  </PackageHeader>
+  <PackageContent value="eldora">
+    eldora shadcn@latest add @eldoraui/clerk-otp
+  </PackageContent>
+  <PackageContent value="npm">
+    npx shadcn@latest add @eldoraui/clerk-otp
+  </PackageContent>
+  <PackageContent value="pnpm">
+    pnpm dlx shadcn@latest add @eldoraui/clerk-otp
+  </PackageContent>
+  <PackageContent value="bun">
+    bunx --bun shadcn@latest add @eldoraui/clerk-otp
+  </PackageContent>
+</PackageInstaller>
+<PackageInstaller defaultOpen="npmsds">
+  <PackageHeader>
+    <PackageIcon>
+      <Activity
+        size={20}
+        className="stroke-1 text-neutral-600 rounded-none shrink-0 mt-0.5 "
+      />
+    </PackageIcon>
+    <PackageTabs>
+      <PackageTab value="eldora">eldora</PackageTab>
+      <PackageTab value="npm">npm</PackageTab>
+      <PackageTab value="pnpm">pnpm</PackageTab>
+      <PackageTab value="bun">bun</PackageTab>
+    </PackageTabs>
+  </PackageHeader>
+  <PackageContent value="eldora">
+    eldora shadcn@latest add @eldoraui/clerk-otp
+  </PackageContent>
+  <PackageContent value="npm">
+    npx shadcn@latest add @eldoraui/clerk-otp
+  </PackageContent>
+  <PackageContent value="pnpm">
+    pnpm dlx shadcn@latest add @eldoraui/clerk-otp
+  </PackageContent>
+  <PackageContent value="bun">
+    bunx --bun shadcn@latest add @eldoraui/clerk-otp
+  </PackageContent>
+</PackageInstaller>
+
+</div>

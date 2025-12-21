@@ -78,3 +78,7 @@
 
   --tracking-md: var(--letter-spacing-md);
 }
+
+body {
+  @apply selection:bg-primary selection:text-background;
+}

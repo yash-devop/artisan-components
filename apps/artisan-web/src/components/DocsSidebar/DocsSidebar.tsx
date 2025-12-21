@@ -43,7 +43,12 @@ export const SIDEBAR_ROUTES: TRoutes[] = [
       {
         sectionId: "1.3",
         name: "Table",
-        href: "/table",
+        href: "/docs/table",
+      },
+      {
+        sectionId: "1.4",
+        name: "PackageInstaller",
+        href: "/docs/installer",
       },
     ],
   },
@@ -62,7 +67,7 @@ export const SIDEBAR_ROUTES: TRoutes[] = [
         href: "/cva",
       },
       {
-        sectionId: "2.2",
+        sectionId: "2.3",
         name: "CVA",
         href: "/cva",
       },
@@ -75,7 +80,7 @@ export const DocsSidebar = () => {
       <SidebarContent>
         {SIDEBAR_ROUTES.map((routeUnit) => {
           return (
-            <SidebarGroup>
+            <SidebarGroup key={routeUnit.id}>
               <h1 className="text-xs font-medium pl-3 pb-1.5 cursor-default select-none">
                 {routeUnit.section}
               </h1>
@@ -83,6 +88,7 @@ export const DocsSidebar = () => {
                 ? routeUnit.sectionChildren?.map((childrenUnit) => {
                     return (
                       <SidebarItem
+                        key={childrenUnit.sectionId}
                         href={childrenUnit.href}
                         name={childrenUnit.name}
                       />
