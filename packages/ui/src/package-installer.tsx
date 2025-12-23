@@ -1,64 +1,70 @@
 import { cn } from "@repo/utils";
-import { SquareTerminal } from "lucide-react";
-import React from "react";
+import React, { createContext, useContext, useRef } from "react";
 
+import { Check, Copy } from "lucide-react";
 import * as Tabs from "./Tabs";
 
-// https://ui.shadcn.com/docs/installation/manual
-const Root = ({
-  className,
-  children,
-  defaultOpen,
-}: {
+import { useCopyClipboard } from "@repo/hooks";
+
+type TRootProps = {
   className?: string;
   children: React.ReactNode;
   defaultOpen?: string;
-}) => {
-  const tabs = [
-    {
-      name: "pnpm",
-      value: "pnpm",
-      //   count: 8,
-      content:
-        "pnpm add class-variance-authority clsx tailwind-merge lucide-react tw-animate-css",
-    },
-    {
-      name: "npm",
-      value: "npm",
-      //   count: 3,
-      content:
-        "npm install class-variance-authority clsx tailwind-merge lucide-react tw-animate-css",
-    },
-    {
-      name: "yarn",
-      value: "yarn",
-      //   count: 6,
-      content: `
-          yarn add class-variance-authority clsx tailwind-merge lucide-react
-         
-      `,
-    },
-  ];
+};
+
+type TCopyContext = {
+  ref?: React.RefObject<HTMLDivElement | null>;
+  copyToClipboard: <T>(copyText: T) => void;
+  isCopied?: boolean;
+};
+
+const CopyContext = createContext<TCopyContext | null>(null);
+
+const useCopyContext = () => {
+  const context = useContext(CopyContext);
+  if (!context) {
+    throw new Error(
+      "useCopyContext must be wrapped withing CopyContext.Provider"
+    );
+  }
+  return context;
+};
+
+const Root = ({ className, children, defaultOpen }: TRootProps) => {
+  const contentRef = useRef<HTMLDivElement | null>(null);
+  const { copyToClipboard, isCopied } = useCopyClipboard();
+
+  const copyBoard = () => {
+    const textToCopy = contentRef.current?.innerText;
+    if (!textToCopy) return;
+    copyToClipboard(textToCopy);
+  };
   return (
-    <div
-      className={cn(
-        `max-w-[800px] border rounded-lg border-neutral-300`,
-        className
-      )}
+    <CopyContext.Provider
+      value={{ copyToClipboard: copyBoard, ref: contentRef, isCopied }}
     >
-      <Tabs.Root defaultOpen={defaultOpen}>{children}</Tabs.Root>
-    </div>
+      <div
+        className={cn(
+          `max-w-[800px] border rounded-lg border-neutral-300`,
+          className
+        )}
+      >
+        <Tabs.Root defaultOpen={defaultOpen}>{children}</Tabs.Root>
+      </div>
+    </CopyContext.Provider>
   );
 };
 
 const PackageTabs = ({ children }: { children: React.ReactNode }) => {
-  return <Tabs.TabsList className="w-full p-0">{children}</Tabs.TabsList>;
+  return (
+    <Tabs.TabsList className="w-full p-0 pl-2.5">{children}</Tabs.TabsList>
+  );
 };
 
 const PackageHeader = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="border-b border-neutral-300 p-2 flex items-center gap-1 w-full bg-neutral-100 rounded-t-lg">
-      <PackageIcon>{children}</PackageIcon>
+      {children}
     </div>
   );
 };
@@ -90,23 +96,30 @@ const PackageTab = ({
 const PackageContent = ({
   value,
   children,
+  className,
 }: {
   value: string;
   children: React.ReactNode;
+  className?: string;
 }) => {
+  const { ref } = useCopyContext();
   return (
     <Tabs.Content
+      ref={ref}
       value={value}
-      className="
-    bg-transparent overflow-x-auto max-w-[800px]
-    [&::-webkit-scrollbar]:h-1
-    [&::-webkit-scrollbar-track]:bg-neutral-100
-    [&::-webkit-scrollbar-thumb]:bg-neutral-400
-    [&::-webkit-scrollbar-thumb]:rounded-full
-    hover:[&::-webkit-scrollbar-thumb]:bg-neutral-500
-  "
+      className={cn(
+        `
+bg-transparent overflow-x-auto max-w-[800px]
+[&::-webkit-scrollbar]:h-1
+[&::-webkit-scrollbar-track]:bg-neutral-100
+[&::-webkit-scrollbar-thumb]:bg-neutral-400
+[&::-webkit-scrollbar-thumb]:rounded-full
+hover:[&::-webkit-scrollbar-thumb]:bg-neutral-500
+text-sm`,
+        className
+      )}
     >
-      <p className="text-sm text-neutral-800">{children}</p>
+      {children}
     </Tabs.Content>
   );
 };
@@ -115,105 +128,35 @@ const PackageIcon = ({ children }: { children: React.ReactNode }) => {
   return children;
 };
 
-export {
-  Root as PackageInstaller,
-  PackageTabs,
-  PackageTab,
-  PackageHeader,
-  PackageContent,
-  PackageIcon,
+const PackageCopy = () => {
+  const { copyToClipboard, isCopied } = useCopyContext();
+
+  return (
+    <button className="flex items-center justify-center text-neutral-600 cursor-pointer pr-2">
+      {isCopied ? (
+        <Check size={17} />
+      ) : (
+        <Copy size={17} onClick={copyToClipboard} />
+      )}
+    </button>
+  );
 };
 
-// import { cn } from "@repo/utils";
-// import { SquareTerminal } from "lucide-react";
-// import React from "react";
+// USE-CASE 2:  Code Snippet support.
 
-// import * as Tabs from "./Tabs";
+const CodeBlock = () => {
+  return <div className="">yashkamble</div>;
+};
 
-// // https://ui.shadcn.com/docs/installation/manual
-// export const PackageInstaller = ({ className }: { className?: string }) => {
-//   const tabs = [
-//     {
-//       name: "pnpm",
-//       value: "pnpm",
-//       //   count: 8,
-//       content:
-//         "pnpm add class-variance-authority clsx tailwind-merge lucide-react tw-animate-css",
-//     },
-//     {
-//       name: "npm",
-//       value: "npm",
-//       //   count: 3,
-//       content:
-//         "npm install class-variance-authority clsx tailwind-merge lucide-react tw-animate-css",
-//     },
-//     {
-//       name: "yarn",
-//       value: "yarn",
-//       //   count: 6,
-//       content: `
-//           yarn add class-variance-authority clsx tailwind-merge lucide-react
+export {
+  PackageContent,
+  PackageCopy,
+  PackageHeader,
+  PackageIcon,
+  Root as PackageInstaller,
+  PackageTab,
+  PackageTabs,
 
-//       `,
-//     },
-//   ];
-//   return (
-//     <div
-//       className={cn(
-//         `max-w-[800px] border rounded-lg border-neutral-300`,
-//         className
-//       )}
-//     >
-//       <Tabs.Root defaultOpen="yarn">
-//         <Tabs.TabsList className="w-full p-0">
-//           <PackageHeader>
-//             {tabs.map((tab) => (
-//               <Tabs.Trigger
-//                 key={tab.value}
-//                 name={tab.name}
-//                 className="
-//                flex items-center gap-1 p-2 leading-3 w-fit bg-neutral-100
-//                rounded-sm transition
-
-//                focus-visible:ring-0 focus-visible:outline-none
-
-//                data-[state=active]:border
-//                data-[state=active]:border-blue-400
-//                data-[state=active]:bg-white
-//                data-[state=active]:text-blue-600
-//              "
-//               >
-//                 {tab.name}
-//               </Tabs.Trigger>
-//             ))}
-//           </PackageHeader>
-//         </Tabs.TabsList>
-//         {tabs.map((tab) => (
-//           <Tabs.Content
-//             key={tab.value}
-//             value={tab.value}
-//             className="bg-transparent overflow-x-auto max-w-[800px] truncate [&::-webkit-scrollbar]:h-1
-//     [&::-webkit-scrollbar-track]:bg-neutral-100
-//     [&::-webkit-scrollbar-thumb]:bg-neutral-400
-//     [&::-webkit-scrollbar-thumb]:rounded-full
-//     hover:[&::-webkit-scrollbar-thumb]:bg-neutral-500 "
-//           >
-//             <p className="text-sm text-neutral-800">{tab.content}</p>
-//           </Tabs.Content>
-//         ))}
-//       </Tabs.Root>
-//     </div>
-//   );
-// };
-
-// export const PackageHeader = ({ children }: { children: React.ReactNode }) => {
-//   return (
-//     <div className="border-b border-neutral-300 p-2 flex items-center gap-1 w-full bg-neutral-100 rounded-t-lg">
-//       <SquareTerminal
-//         size={20}
-//         className="stroke-1 text-neutral-600 rounded-none shrink-0 mt-0.5 "
-//       />
-//       {children}
-//     </div>
-//   );
-// };
+  // Codeblock :
+  CodeBlock,
+};

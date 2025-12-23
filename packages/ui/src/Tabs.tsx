@@ -44,10 +44,12 @@ export function Content({
   className,
   children,
   value,
+  ref,
 }: {
   className?: string;
   children: React.ReactNode;
   value: string;
+  ref?: React.RefObject<HTMLDivElement | null>;
 }) {
   return (
     <TabsContent.Consumer>
@@ -56,7 +58,9 @@ export function Content({
         if (accessorKey !== openTab) return <></>;
         return (
           <section
-            className={cn("bg-neutral-800 w-full rounded-md p-3", className)}
+            id="tab-content"
+            ref={ref}
+            className={cn("w-full rounded-md p-3", className)}
           >
             {children}
           </section>
