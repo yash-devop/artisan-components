@@ -1,10 +1,17 @@
 import { cn } from "@repo/utils";
-import React, { createContext, useContext, useRef } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import { Check, Copy } from "lucide-react";
-import * as Tabs from "./Tabs";
+import { Tabs } from "@repo/primitives";
 
 import { useCopyClipboard } from "@repo/hooks";
+import { highlightCode } from "@repo/lib";
 
 type TRootProps = {
   className?: string;
@@ -30,7 +37,7 @@ const useCopyContext = () => {
   return context;
 };
 
-const Root = ({ className, children, defaultOpen }: TRootProps) => {
+const BlockRoot = ({ className, children, defaultOpen }: TRootProps) => {
   const contentRef = useRef<HTMLDivElement | null>(null);
   const { copyToClipboard, isCopied } = useCopyClipboard();
 
@@ -55,21 +62,32 @@ const Root = ({ className, children, defaultOpen }: TRootProps) => {
   );
 };
 
-const PackageTabs = ({ children }: { children: React.ReactNode }) => {
+const BlockList = ({ children }: { children: React.ReactNode }) => {
   return (
     <Tabs.TabsList className="w-full p-0 pl-2.5">{children}</Tabs.TabsList>
   );
 };
 
-const PackageHeader = ({ children }: { children: React.ReactNode }) => {
+const BlockHeader = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
   return (
-    <div className="border-b border-neutral-300 p-2 flex items-center gap-1 w-full bg-neutral-100 rounded-t-lg">
+    <div
+      className={cn(
+        `border-b border-neutral-300 p-2 flex items-center justify-between gap-1 w-full bg-neutral-100 rounded-t-lg`,
+        className
+      )}
+    >
       {children}
     </div>
   );
 };
 
-const PackageTab = ({
+const BlockTab = ({
   value,
   children,
 }: {
@@ -93,7 +111,7 @@ const PackageTab = ({
   );
 };
 
-const PackageContent = ({
+const BlockContent = ({
   value,
   children,
   className,
@@ -104,7 +122,7 @@ const PackageContent = ({
 }) => {
   const { ref } = useCopyContext();
   return (
-    <Tabs.Content
+    <Tabs.TabContent
       ref={ref}
       value={value}
       className={cn(
@@ -120,15 +138,15 @@ text-sm`,
       )}
     >
       {children}
-    </Tabs.Content>
+    </Tabs.TabContent>
   );
 };
 
-const PackageIcon = ({ children }: { children: React.ReactNode }) => {
+const BlockIcon = ({ children }: { children: React.ReactNode }) => {
   return children;
 };
 
-const PackageCopy = () => {
+const BlockCopy = () => {
   const { copyToClipboard, isCopied } = useCopyContext();
 
   return (
@@ -144,19 +162,56 @@ const PackageCopy = () => {
 
 // USE-CASE 2:  Code Snippet support.
 
-const CodeBlock = () => {
-  return <div className="">yashkamble</div>;
+const BlockCode = () => {
+  const [html, setHtml] = useState<string>("");
+  const { ref } = useCopyContext();
+
+  useEffect(() => {
+    highlightCode(
+      `import * as React from 'react';
+
+      /**
+       * A custom hook that converts a callback to a ref to avoid triggering re-renders when passed as a
+       * prop or avoid re-executing effects when passed as a dependency
+       */
+      function useCallbackRef<T extends (...args: any[]) => any>(callback: T | undefined): T {
+        const callbackRef = React.useRef(callback);
+      
+        React.useEffect(() => {
+          callbackRef.current = callback;
+        });
+      
+        // https://github.com/facebook/react/issues/19240
+        return React.useMemo(() => ((...args) => callbackRef.current?.(...args)) as T, []);
+      }
+      
+      export { useCallbackRef };`.trim()
+    ).then((val) => {
+      setHtml(val);
+    });
+  }, []);
+
+  return (
+    <div className="w-[800px]">
+      <div
+        tabIndex={-1}
+        className="overflow-auto w-full text-sm [&_pre]:outline-none"
+        ref={ref}
+        dangerouslySetInnerHTML={{
+          __html: html,
+        }}
+      ></div>
+    </div>
+  );
 };
 
 export {
-  PackageContent,
-  PackageCopy,
-  PackageHeader,
-  PackageIcon,
-  Root as PackageInstaller,
-  PackageTab,
-  PackageTabs,
-
-  // Codeblock :
-  CodeBlock,
+  BlockRoot,
+  BlockContent,
+  BlockHeader,
+  BlockCopy,
+  BlockTab,
+  BlockIcon,
+  BlockCode,
+  BlockList,
 };

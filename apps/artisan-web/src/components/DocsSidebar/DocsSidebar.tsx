@@ -1,4 +1,4 @@
-import { Button } from "@repo/ui/button/Button";
+import { Button } from "@repo/primitives";
 import { cn } from "@repo/utils";
 import { ArrowRightFromLine } from "lucide-react";
 import React, { createContext, useContext } from "react";

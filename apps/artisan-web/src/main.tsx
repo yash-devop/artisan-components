@@ -1,4 +1,4 @@
-import "@repo/ui/uiStyles.css";
+import "@repo/primitives/uiStyles.css";
 import "./index.css";
 
 import React, { StrictMode } from "react";

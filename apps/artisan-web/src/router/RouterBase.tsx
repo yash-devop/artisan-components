@@ -1,9 +1,8 @@
 import React from "react";
 import { createBrowserRouter } from "react-router";
 import { PageLayout } from "../components/Layouts/PageLayout";
-import { TestPage } from "../pages/TestPage";
-import { PackageShowcase } from "../pages/PackageInstallerShowcase";
-
+import ButtonMDX from "../docs/Buttons.mdx";
+import PackageInstallerMDX from "../docs/PackageInstaller.mdx";
 export const Router = createBrowserRouter([
   {
     path: "/",
@@ -22,11 +21,11 @@ export const Router = createBrowserRouter([
           },
           {
             path: "button",
-            element: <TestPage />,
+            element: <ButtonMDX />,
           },
           {
             path: "installer",
-            element: <PackageShowcase />,
+            element: <PackageInstallerMDX />,
           },
         ],
       },

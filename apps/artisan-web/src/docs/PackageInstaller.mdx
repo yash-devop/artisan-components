@@ -8,46 +8,62 @@
 
 import { SquareTerminal, Activity } from "lucide-react";
 import {
-  PackageInstaller,
-  PackageHeader,
-  PackageTabs,
-  PackageTab,
-  PackageContent,
-  PackageIcon,
-  PackageCopy,
-} from "@repo/ui/package-installer";
+  BlockRoot,
+  BlockCode,
+  BlockContent,
+  BlockCopy,
+  BlockHeader,
+  BlockIcon,
+  BlockList,
+  BlockTab,
+} from "@repo/primitives/components/code-blockz";
 
 <div className='space-y-6'>
-  <PackageInstaller defaultOpen="npmsds">
-    <PackageHeader>
-      <PackageIcon>
+  <BlockRoot defaultOpen="npmsds">
+    <BlockHeader>
+      <BlockIcon>
         <SquareTerminal
           size={20}
           className="stroke-1 text-neutral-600 rounded-none shrink-0 mt-0.5 "
         />
 
-      </PackageIcon>
-      <PackageTabs>
-        <PackageTab value="eldora">eldora</PackageTab>
+      </BlockIcon>
+      {/* <PackageTabs>
         <PackageTab value="npm">npm</PackageTab>
         <PackageTab value="pnpm">pnpm</PackageTab>
         <PackageTab value="bun">bun</PackageTab>
-      </PackageTabs>
-      <PackageCopy />
-    </PackageHeader>
-    <PackageContent value="eldora">
-      eldora shadcn@latest add @eldoraui/clerk-otp
-    </PackageContent>
-    <PackageContent value="npm">
+      </PackageTabs> */}
+      <BlockCopy />
+    </BlockHeader>
+    {/* <BlockContent value="npm">
       npx shadcn@latest add @eldoraui/clerk-otp
-    </PackageContent>
-    <PackageContent value="pnpm">
+    </BlockContent>
+    <BlockContent value="pnpm">
       pnpm dlx shadcn@latest add @eldoraui/clerk-otp
-    </PackageContent>
-    <PackageContent value="bun">
+    </BlockContent>
+    <BlockContent value="bun">
       bunx --bun shadcn@latest add @eldoraui/clerk-otp
-    </PackageContent>
+    </BlockContent> */}
 
-</PackageInstaller>
+    <BlockCode />
+
+</BlockRoot>
+
+</div>
+
+<div className='space-y-6 mt-4'>
+  <BlockRoot defaultOpen="npm">
+    <BlockHeader className={"bg"}>
+      <BlockIcon>
+        <SquareTerminal
+          size={20}
+          className="stroke-1 text-neutral-600 rounded-none shrink-0 mt-0.5 "
+        />
+
+      </BlockIcon>
+        <span>dsah7ud</span>
+    </BlockHeader>
+
+</BlockRoot>
 
 </div>

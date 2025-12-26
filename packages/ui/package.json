@@ -1,16 +1,17 @@
 {
-  "name": "@repo/ui",
+  "name": "@repo/primitives",
   "version": "0.0.0",
   "private": true,
-  "exports": {
-    "./uiStyles.css": "./dist/uiStyles.css",
-    "./*": "./src/*.tsx"
-  },
   "scripts": {
     "build:ui": "npx @tailwindcss/cli -i ./src/uiStyles.css -o ./dist/uiStyles.css",
     "dev": "npx @tailwindcss/cli -i ./src/uiStyles.css -o ./dist/uiStyles.css --watch",
     "generate:component": "turbo gen react-component",
     "check-types": "tsc --noEmit"
+  },
+  "exports": {
+    "./uiStyles.css": "./dist/uiStyles.css",
+    ".": "./src/primitives/index.ts",
+    "./components/code-block": "./src/code-block/index.ts"
   },
   "devDependencies": {
     "react-hook-form": "^7.65.0",

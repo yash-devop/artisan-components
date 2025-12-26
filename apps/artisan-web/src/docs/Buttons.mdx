@@ -1,65 +1,25 @@
 # Button
 
-<span className='text-neutral-500'>
+####
+
 Displays a button or a component that looks like a button.
 
-</span>
+import { Button } from "@repo/primitives";
+import { ComponentPreview } from "../components/ComponentPreview.tsx";
 
-import { Button } from "@repo/ui/button/Button";
-import { CodePreview } from "../components/CodePreview.tsx";
-
-<div className="flex flex-col gap-y-8">
+<div className="flex flex-col gap-y-8 mt-6">
   <div>
     ## Default
-    <CodePreview>
-      <div className="flex flex-col lg:flex-row justify-center items-center gap-6 font-semibold">
-        <Button size={"sm"} className="">
-          <span>Button sm</span>
-        </Button>
-        <Button size={"md"} className="">
-          <span>Button md</span>
-        </Button>
-        <Button size={"lg"} className="">
-          <span>Button lg</span>
-        </Button>
-      </div>
-    </CodePreview>
-  </div>
-  <div>
-    ## Secondary
-    <CodePreview>
-      <div className="flex flex-col lg:flex-row justify-center items-center gap-6 font-semibold">
-        <Button size={"sm"} variant={"secondary"} className="">
-          <span>Button sm</span>
-        </Button>
-        <Button size={"md"} variant={"secondary"} className="">
-          <span>Button md</span>
-        </Button>
-        <Button size={"lg"} variant={"secondary"} className="">
-          <span>Button lg</span>
-        </Button>
-      </div>
-    </CodePreview>
-  </div>
-  <div>
-    ## Link
-    <CodePreview>
-      <div className="flex flex-col lg:flex-row justify-center items-center gap-6 font-semibold">
-        <Button size={"sm"} variant={"link"} className="">
-          <span>Button sm</span>
-        </Button>
-        <Button size={"md"} variant={"link"} className="">
-          <span>Button md</span>
-        </Button>
-        <Button size={"lg"} variant={"link"} className="">
-          <span>Button lg</span>
-        </Button>
-      </div>
-    </CodePreview>
+    <ComponentPreview className="gap-3">
+      <Button size={"sm"}>
+        <span>Button sm</span>
+      </Button>
+      <Button size={"md"}>
+        <span>Button md</span>
+      </Button>
+      <Button size={"lg"}>
+        <span>Button lg</span>
+      </Button>
+    </ComponentPreview>
   </div>
 </div>
-# dsiajduisahbydubsayhudbas sabhdub sah
-
----
-
-## TITLEHDSb hjbdh sabdh bsa dsahd bhsa

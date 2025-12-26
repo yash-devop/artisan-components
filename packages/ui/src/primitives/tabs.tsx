@@ -1,18 +1,18 @@
+import { cn } from "@repo/utils";
 import React, { createContext, useEffect, useState } from "react";
-import { cn } from "../../utils/cn";
-import { Button } from "./button/Button";
+import { Button } from "./Button";
 
-export interface ITabsContent {
+export interface ITabPrimitiveContext {
   openTab: string;
   setOpen: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const TabsContent = createContext<ITabsContent>({
+const TabContext = createContext<ITabPrimitiveContext>({
   openTab: "",
   setOpen: () => {},
 });
 
-export const Root = ({
+const Root = ({
   children,
   defaultOpen,
 }: {
@@ -22,7 +22,7 @@ export const Root = ({
   const [openTab, setOpen] = useState<string>(defaultOpen || "");
 
   const tabValues = React.Children.toArray(children)
-    .filter((child: any) => typeof child?.props?.value === ("string" as string))
+    .filter((child: any) => (typeof child?.props?.value as string) === "string")
     .map((child: any) => child?.props?.value as string);
   useEffect(() => {
     if (tabValues.length === 0) return;
@@ -34,13 +34,13 @@ export const Root = ({
     }
   }, [children, defaultOpen]);
   return (
-    <TabsContent.Provider value={{ openTab, setOpen }}>
+    <TabContext.Provider value={{ openTab, setOpen }}>
       <div>{children}</div>
-    </TabsContent.Provider>
+    </TabContext.Provider>
   );
 };
 
-export function Content({
+function TabContent({
   className,
   children,
   value,
@@ -52,7 +52,7 @@ export function Content({
   ref?: React.RefObject<HTMLDivElement | null>;
 }) {
   return (
-    <TabsContent.Consumer>
+    <TabContext.Consumer>
       {({ openTab }) => {
         const accessorKey = value;
         if (accessorKey !== openTab) return <></>;
@@ -66,13 +66,13 @@ export function Content({
           </section>
         );
       }}
-    </TabsContent.Consumer>
+    </TabContext.Consumer>
   );
 }
 
-Content.displayName = "TabsContent";
+TabContent.displayName = "TabContent";
 
-export function TabsList({
+function TabsList({
   children,
   className,
 }: {
@@ -91,9 +91,9 @@ export function TabsList({
   );
 }
 
-Content.displayName = "TabsList";
+TabsList.displayName = "TabsList";
 
-export const Trigger = ({
+const Trigger = ({
   className,
   value,
   children,
@@ -103,7 +103,7 @@ export const Trigger = ({
   children?: React.ReactNode;
 }) => {
   return (
-    <TabsContent.Consumer>
+    <TabContext.Consumer>
       {({ openTab, setOpen }) => {
         const isActive = openTab === value;
         return (
@@ -121,8 +121,10 @@ export const Trigger = ({
           </Button>
         );
       }}
-    </TabsContent.Consumer>
+    </TabContext.Consumer>
   );
 };
 
 Trigger.displayName = "TabsTrigger";
+
+export { TabContent, Root, TabsList, Trigger };
