@@ -3,6 +3,8 @@ import { createBrowserRouter } from "react-router";
 import { PageLayout } from "../components/Layouts/PageLayout";
 import ButtonMDX from "../docs/Buttons.mdx";
 import PackageInstallerMDX from "../docs/PackageInstaller.mdx";
+import CodeBlockMDX from "../docs/CodeBlock.mdx";
+import FocusConceptMDX from "../docs/FocusConcept.mdx";
 export const Router = createBrowserRouter([
   {
     path: "/",
@@ -26,6 +28,14 @@ export const Router = createBrowserRouter([
           {
             path: "installer",
             element: <PackageInstallerMDX />,
+          },
+          {
+            path: "codeblock",
+            element: <CodeBlockMDX />,
+          },
+          {
+            path: "focus-concept",
+            element: <FocusConceptMDX />,
           },
         ],
       },

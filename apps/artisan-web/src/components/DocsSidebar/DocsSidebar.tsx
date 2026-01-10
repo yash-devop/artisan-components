@@ -31,22 +31,17 @@ export const SIDEBAR_ROUTES: TRoutes[] = [
     section: "Components",
     sectionChildren: [
       {
-        sectionId: "1.1",
+        sectionId: "",
         name: "Button",
         href: "/docs/button",
       },
       {
         sectionId: "1.2",
-        name: "Accordion",
-        href: "/docs/accordion",
+        name: "Code Block",
+        href: "/docs/codeblock",
       },
       {
         sectionId: "1.3",
-        name: "Table",
-        href: "/docs/table",
-      },
-      {
-        sectionId: "1.4",
         name: "PackageInstaller",
         href: "/docs/installer",
       },
@@ -54,50 +49,43 @@ export const SIDEBAR_ROUTES: TRoutes[] = [
   },
   {
     id: 2,
-    section: "Utilities",
+    section: "Short Concepts",
     sectionChildren: [
       {
-        sectionId: "2.1",
-        name: "Tailwind Merge ( cn )",
-        href: "/cn",
-      },
-      {
-        sectionId: "2.2",
-        name: "CVA",
-        href: "/cva",
-      },
-      {
-        sectionId: "2.3",
-        name: "CVA",
-        href: "/cva",
+        sectionId: "3.1",
+        name: "Focus,focus-visible/within",
+        href: "/docs/focus-concept",
       },
     ],
   },
 ];
+
 export const DocsSidebar = () => {
   return (
     <Sidebar>
       <SidebarContent>
-        {SIDEBAR_ROUTES.map((routeUnit) => {
-          return (
-            <SidebarGroup key={routeUnit.id}>
-              <h1 className="text-xs font-medium pl-3 pb-1.5 cursor-default select-none">
-                {routeUnit.section}
-              </h1>
-              {routeUnit.sectionChildren.length > 0
-                ? routeUnit.sectionChildren?.map((childrenUnit) => {
-                    return (
-                      <SidebarItem
-                        key={childrenUnit.sectionId}
-                        href={childrenUnit.href}
-                        name={childrenUnit.name}
-                      />
-                    );
-                  })
-                : null}
-            </SidebarGroup>
-          );
-        })}
+        {SIDEBAR_ROUTES.length > 0
+          ? SIDEBAR_ROUTES.map((routeUnit) => {
+              return (
+                <SidebarGroup key={routeUnit.id}>
+                  <h1 className="text-xs font-medium pl-3 pb-1.5 cursor-default select-none">
+                    {routeUnit.section}
+                  </h1>
+                  {routeUnit?.sectionChildren?.length > 0
+                    ? routeUnit.sectionChildren?.map((childrenUnit) => {
+                        return (
+                          <SidebarItem
+                            key={childrenUnit.sectionId}
+                            href={childrenUnit.href}
+                            name={childrenUnit.name}
+                          />
+                        );
+                      })
+                    : null}
+                </SidebarGroup>
+              );
+            })
+          : null}
       </SidebarContent>
     </Sidebar>
   );
@@ -156,7 +144,7 @@ export const Sidebar = ({ children, className }: TSidebarCommonProps) => {
       <>
         <Button
           className={cn(
-            `p-1.5 fixed top-4 inset-x-4 bg-neutral-800 w-fit h-fit`
+            `p-1.5 fixed top-4 inset-x-4 bg-neutral-800 w-fit h-fit z-20`
           )}
         >
           <ArrowRightFromLine size={18} className="shrink-0" />

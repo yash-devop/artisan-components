@@ -7,8 +7,8 @@ import React, {
   useState,
 } from "react";
 
+import { CopyButton, Tabs } from "@repo/primitives";
 import { Check, Copy } from "lucide-react";
-import { Tabs } from "@repo/primitives";
 
 import { useCopyClipboard } from "@repo/hooks";
 import { highlightCode } from "@repo/lib";
@@ -21,7 +21,7 @@ type TRootProps = {
 
 type TCopyContext = {
   ref?: React.RefObject<HTMLDivElement | null>;
-  copyToClipboard: <T>(copyText: T) => void;
+  copyToClipboard: <T extends string>(copyText: T) => void;
   isCopied?: boolean;
 };
 
@@ -41,18 +41,13 @@ const BlockRoot = ({ className, children, defaultOpen }: TRootProps) => {
   const contentRef = useRef<HTMLDivElement | null>(null);
   const { copyToClipboard, isCopied } = useCopyClipboard();
 
-  const copyBoard = () => {
-    const textToCopy = contentRef.current?.innerText;
-    if (!textToCopy) return;
-    copyToClipboard(textToCopy);
-  };
   return (
     <CopyContext.Provider
-      value={{ copyToClipboard: copyBoard, ref: contentRef, isCopied }}
+      value={{ copyToClipboard, ref: contentRef, isCopied }}
     >
       <div
         className={cn(
-          `max-w-[800px] border rounded-lg border-neutral-300`,
+          `max-w-200 border rounded-lg border-neutral-300`,
           className
         )}
       >
@@ -127,7 +122,7 @@ const BlockContent = ({
       value={value}
       className={cn(
         `
-bg-transparent overflow-x-auto max-w-[800px]
+bg-transparent overflow-x-auto max-w-200
 [&::-webkit-scrollbar]:h-1
 [&::-webkit-scrollbar-track]:bg-neutral-100
 [&::-webkit-scrollbar-thumb]:bg-neutral-400
@@ -147,71 +142,22 @@ const BlockIcon = ({ children }: { children: React.ReactNode }) => {
 };
 
 const BlockCopy = () => {
-  const { copyToClipboard, isCopied } = useCopyContext();
+  const { copyToClipboard, isCopied, ref } = useCopyContext();
 
-  return (
-    <button className="flex items-center justify-center text-neutral-600 cursor-pointer pr-2">
-      {isCopied ? (
-        <Check size={17} />
-      ) : (
-        <Copy size={17} onClick={copyToClipboard} />
-      )}
-    </button>
-  );
-};
-
-// USE-CASE 2:  Code Snippet support.
-
-const BlockCode = () => {
-  const [html, setHtml] = useState<string>("");
-  const { ref } = useCopyContext();
-
-  useEffect(() => {
-    highlightCode(
-      `import * as React from 'react';
-
-      /**
-       * A custom hook that converts a callback to a ref to avoid triggering re-renders when passed as a
-       * prop or avoid re-executing effects when passed as a dependency
-       */
-      function useCallbackRef<T extends (...args: any[]) => any>(callback: T | undefined): T {
-        const callbackRef = React.useRef(callback);
-      
-        React.useEffect(() => {
-          callbackRef.current = callback;
-        });
-      
-        // https://github.com/facebook/react/issues/19240
-        return React.useMemo(() => ((...args) => callbackRef.current?.(...args)) as T, []);
-      }
-      
-      export { useCallbackRef };`.trim()
-    ).then((val) => {
-      setHtml(val);
-    });
-  }, []);
-
-  return (
-    <div className="w-[800px]">
-      <div
-        tabIndex={-1}
-        className="overflow-auto w-full text-sm [&_pre]:outline-none"
-        ref={ref}
-        dangerouslySetInnerHTML={{
-          __html: html,
-        }}
-      ></div>
-    </div>
-  );
+  const handleCopy = () => {
+    if (!ref) return "";
+    if (!ref.current?.textContent) return "";
+    return ref.current?.textContent;
+  };
+  return <CopyButton getValue={handleCopy} />;
 };
 
 export {
-  BlockRoot,
   BlockContent,
-  BlockHeader,
   BlockCopy,
-  BlockTab,
+  BlockHeader,
   BlockIcon,
-  BlockCode,
   BlockList,
+  BlockRoot,
+  BlockTab,
 };

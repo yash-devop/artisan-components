@@ -1,7 +1,8 @@
-import "@repo/primitives/uiStyles.css";
+import "@repo/ui/uiStyles.css";
+import "@repo/primitives/primitiveStyles.css";
 import "./index.css";
 
-import React, { StrictMode } from "react";
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 

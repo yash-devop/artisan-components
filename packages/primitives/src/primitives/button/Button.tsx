@@ -2,7 +2,7 @@ import { cn } from "@repo/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import type React from "react";
 
-type TButtonProps = React.ComponentProps<"button"> & {
+export type TButtonProps = React.ComponentProps<"button"> & {
   children: React.ReactNode;
   className?: string;
   variant?: VariantProps<typeof buttonVariants>["variant"];

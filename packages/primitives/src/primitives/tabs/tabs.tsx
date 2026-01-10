@@ -1,7 +1,6 @@
 import { cn } from "@repo/utils";
 import React, { createContext, useEffect, useState } from "react";
-import { Button } from "./Button";
-
+import { Button } from "../button";
 export interface ITabPrimitiveContext {
   openTab: string;
   setOpen: React.Dispatch<React.SetStateAction<string>>;
@@ -127,4 +126,4 @@ const Trigger = ({
 
 Trigger.displayName = "TabsTrigger";
 
-export { TabContent, Root, TabsList, Trigger };
+export { Root, TabContent, TabsList, Trigger };

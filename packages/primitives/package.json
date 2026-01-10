@@ -1,0 +1,36 @@
+{
+  "name": "@repo/primitives",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build:ui": "npx @tailwindcss/cli -i ./src/primitiveStyles.css -o ./dist/primitiveStyles.css",
+    "dev": "npx @tailwindcss/cli -i ./src/primitiveStyles.css -o ./dist/primitiveStyles.css --watch",
+    "generate:component": "turbo gen react-component",
+    "check-types": "tsc --noEmit"
+  },
+  "exports": {
+    "./srcDir/*": "./src/primitives/*",
+    "./buttonraw": "./src/primitives/button/Button.tsx?raw",
+    "./primitiveStyles.css": "./dist/primitiveStyles.css",
+    ".": "./src/primitives/index.ts",
+    "./button": "./src/primitives/button/index.ts",
+    "./copy-button": "./src/primitives/copy-button/index.ts",
+    "./input": "./src/primitives/input/index.ts",
+    "./tabs": "./src/primitives/tabs/index.ts"
+  },
+  "devDependencies": {
+    "react-hook-form": "^7.65.0",
+    "@repo/typescript-config": "*",
+    "@repo/tailwind-config": "*",
+    "@types/node": "^22.15.3",
+    "@types/react": "19.1.0",
+    "@types/react-dom": "19.1.1",
+    "typescript": "5.9.2"
+  },
+  "dependencies": {
+    "@repo/utils": "*",
+    "@repo/hooks": "*",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  }
+}

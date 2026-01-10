@@ -1,5 +1,5 @@
 {
-  "name": "@repo/primitives",
+  "name": "@repo/ui",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -10,8 +10,8 @@
   },
   "exports": {
     "./uiStyles.css": "./dist/uiStyles.css",
-    ".": "./src/primitives/index.ts",
-    "./components/code-block": "./src/code-block/index.ts"
+    "./code-block": "./src/code-block/index.ts",
+    "./component-preview": "./src/component-preview/index.ts"
   },
   "devDependencies": {
     "react-hook-form": "^7.65.0",
@@ -24,6 +24,9 @@
   },
   "dependencies": {
     "@repo/utils": "*",
+    "@repo/hooks": "*",
+    "@repo/lib": "*",
+    "@repo/primitives": "*",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   }

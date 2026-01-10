@@ -1,2 +1,53 @@
 @import "@repo/tailwind-config";
 @import "tailwindcss";
+.code-block {
+  counter-reset: line;
+  position: relative;
+  min-width: 100vw;
+}
+
+.code-block code {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  line-height: 1.2;
+}
+
+.code-block code > span {
+  display: inline-block;
+  height: 30px;
+  counter-increment: line;
+  position: relative;
+  padding-top: 6px;
+}
+
+.code-block code > span::before {
+  content: counter(line);
+  height: 100%;
+  position: sticky;
+  z-index: 10;
+  background-color: white;
+  padding: 6px 10px;
+  top: 0;
+  left: 0;
+  padding-right: 20px;
+  width: 2.5rem;
+  user-select: none;
+  color: var(--color-neutral-500);
+}
+
+.code-block code > span[data-highlighted-line],
+.code-block code > span[data-highlighted-line]::before {
+  background-color: var(--color-brand-primary-50);
+}
+
+.code-block code > span[data-highlighted-line]::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background-color: var(--color-primary);
+}

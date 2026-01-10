@@ -1,0 +1,93 @@
+# focus vs focus-visible vs focus-within
+
+## It's a CSS pseudo class and mostly useful in Accessibility ( a11y )
+
+### :focus class
+
+<div className="max-w-3xl mt-2">
+  `:focus` applies when an element receives focus by any input method.
+</div>
+
+<div className="py-3 px-5 mt-6 text-sm text-neutral-700 border border-neutral-300 rounded-xl">
+  <p className="text-black font-semibold">NOTE: </p>
+  Works with Mouse click , Keyboard navigation using `Tab` `Shift+Tab` , Programmatic focus
+  throught JavaScript
+
+</div>
+
+import { Button } from "@repo/primitives";
+import { ComponentPreview } from "../components/ComponentPreview";
+
+<ComponentPreview className="gap-3">
+  <div className="max-w-[450px] flex flex-col items-center justify-center gap-3">
+    <Button className="focus:bg-red-400">Focus</Button>
+    <input
+      placeholder=":focus input"
+      className="py-2 w-full placeholder:text-center border border-neutral-500 focus:outline-red-400 text-sm px-3 rounded-md"
+    />
+  </div>
+</ComponentPreview>
+
+### :focus-visible class
+
+<div className="max-w-3xl mt-2">
+`:focus-visible` is a more intelligent version of focus.
+It applies focus styles only when the browser determines that the user a visible focus indicator
+
+</div>
+
+<div className="py-3 px-5 mt-6 text-sm text-neutral-700 border border-neutral-300 rounded-xl">
+  <p className="text-black font-semibold">NOTE: </p>
+  Works with Keyboard navigation , Assistive technologies , It usually does NOT trigger on mouse click.
+
+</div>
+
+<ComponentPreview className="">
+
+<div className="space-y-4">
+  <div className="max-w-[450px] flex flex-col items-center justify-center gap-3">
+  <Button className="focus-visible:bg-red-400 ">Focus Visible</Button>
+      <input
+        placeholder=":focus-visible input"
+        className="py-2 w-full placeholder:text-center border border-neutral-500 focus:outline-red-400 text-sm px-3 rounded-md"
+      />
+  </div>
+  </div>
+</ComponentPreview>
+
+### :focus-within class
+
+applies to a parent element when any of its children receives focus.
+
+<ComponentPreview className="">
+  <div className="max-w-[420px] space-y-3">
+    <div
+      className="rounded-xl border border-neutral-300 p-3 transition
+                 focus-within:border-primary
+                 focus-within:bg-primary/5
+                 focus-within:ring-2 focus-within:ring-primary/30"
+    >
+      <label className="text-sm text-neutral-700">Username</label>
+      <input
+        placeholder="Enter username"
+        className="mt-1 w-full rounded-md border border-neutral-400 px-3 py-2 text-sm
+                   focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+      />
+    </div>
+
+    <div
+      className="rounded-xl border border-neutral-300 p-3 transition
+                 focus-within:border-primary
+                 focus-within:bg-primary/5
+                 focus-within:ring-2 focus-within:ring-primary/30"
+    >
+      <label className="text-sm text-neutral-700">Email</label>
+      <input
+        placeholder="Enter email"
+        className="mt-1 w-full rounded-md border border-neutral-400 px-3 py-2 text-sm
+                   focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+      />
+    </div>
+
+  </div>
+</ComponentPreview>

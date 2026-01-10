@@ -9,14 +9,14 @@
 import { SquareTerminal, Activity } from "lucide-react";
 import {
   BlockRoot,
-  BlockCode,
   BlockContent,
   BlockCopy,
   BlockHeader,
   BlockIcon,
   BlockList,
   BlockTab,
-} from "@repo/primitives/components/code-block";
+} from "@repo/ui/code-block";
+import { ComponentSource } from "@repo/ui/component-preview";
 
 <div className='space-y-6'>
   <BlockRoot defaultOpen="npmsds">
@@ -28,14 +28,15 @@ import {
         />
 
       </BlockIcon>
-      {/* <PackageTabs>
-        <PackageTab value="npm">npm</PackageTab>
-        <PackageTab value="pnpm">pnpm</PackageTab>
-        <PackageTab value="bun">bun</PackageTab>
-      </PackageTabs> */}
+      <BlockList>
+        <BlockTab value="npm">npm</BlockTab>
+        <BlockTab value="pnpm">pnpm</BlockTab>
+        <BlockTab value="bun">bun</BlockTab>
+      </BlockList>
+
       <BlockCopy />
     </BlockHeader>
-    {/* <BlockContent value="npm">
+    <BlockContent value="npm">
       npx shadcn@latest add @eldoraui/clerk-otp
     </BlockContent>
     <BlockContent value="pnpm">
@@ -43,26 +44,7 @@ import {
     </BlockContent>
     <BlockContent value="bun">
       bunx --bun shadcn@latest add @eldoraui/clerk-otp
-    </BlockContent> */}
-
-    <BlockCode />
-
-</BlockRoot>
-
-</div>
-
-<div className='space-y-6 mt-4'>
-  <BlockRoot defaultOpen="npm">
-    <BlockHeader className={"bg"}>
-      <BlockIcon>
-        <SquareTerminal
-          size={20}
-          className="stroke-1 text-neutral-600 rounded-none shrink-0 mt-0.5 "
-        />
-
-      </BlockIcon>
-        <span>dsah7ud</span>
-    </BlockHeader>
+    </BlockContent>
 
 </BlockRoot>
 
